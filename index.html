@@ -10,6 +10,7 @@
   <body>
     <div id="header">Peasel</div>
     <div id="body-wrapper">
+
         <div id="sidebar">
           <div id="tools">
             <button id="pen" class="sidebar-button">Pen</button>
@@ -17,9 +18,21 @@
           </div>
           <button id="help" class="sidebar-button">?</button>
         </div>
+
         <div id="canvas-wrapper">
             <canvas id="canvas"></canvas>
         </div>
+
+        <div id="modal-backdrop" class="hidden"></div>
+
+        <div class="modal hidden" id="delete-modal">
+          <p>Are you sure you want to erase the canvas and start over?</p>
+          <div id="delete-modal-buttons">
+              <button id="delete-yes">Yes</button>
+              <button  id="delete-no">No</button>
+          </div>
+      </div>
+
     </div>
   </body>
 </html>

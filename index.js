@@ -1,4 +1,7 @@
 var penButton = document.getElementById("pen")
+var deleteButton = document.getElementById("delete")
+var deleteYes = document.getElementById("delete-yes")
+var deleteNo = document.getElementById("delete-no")
 
 // canvas set-up
 var canvas = document.getElementById("canvas");
@@ -9,6 +12,28 @@ canvas.width = canvas.height
 //add pen button click functinality
 penButton.addEventListener('click', function() {
     penButton.classList.toggle("clicked");
+})
+
+//add delete button functinality
+deleteButton.addEventListener('click', function(){
+    deleteButton.classList.toggle("clicked");
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
+})
+
+//if user clicks yes, erase the whole canvas and close modals
+deleteYes.addEventListener('click', function(){
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    deleteButton.classList.toggle("clicked");
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
+})
+
+//if user clicks no, close the modals
+deleteNo.addEventListener('click', function(){
+    deleteButton.classList.toggle("clicked");
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
 })
 
 
