@@ -20,16 +20,31 @@
         </div>
 
         <div id="canvas-wrapper">
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" class="hidden"></canvas>
         </div>
 
-        <div id="modal-backdrop" class="hidden"></div>
+        <div id="modal-backdrop" class=""></div>
+
+        <div id="grid-size-modal" class="modal">
+          <p>Choose a grid size:</p>
+          <div id="grid-size-body">
+            <form>
+              <input type="radio" id="16" name="grid-size" value="16" checked>
+              <label for="16">16x16</label><br>
+              <input type="radio" id="32" name="grid-size" value="32">
+              <label for="32">32x32</label><br>
+              <input type="radio" id="64" name="grid-size" value="64">
+              <label for="64">64x64</label><br>
+            </form>
+            <button id="grid-size-button" class="modal-button">Ok</button>
+          </div>
+        </div>
 
         <div class="modal hidden" id="delete-modal">
           <p>Are you sure you want to erase the canvas and start over?</p>
           <div id="delete-modal-buttons">
-              <button id="delete-yes">Yes</button>
-              <button  id="delete-no">No</button>
+              <button id="delete-yes" class="modal-button">Yes</button>
+              <button  id="delete-no" class="modal-button">No</button>
           </div>
       </div>
 

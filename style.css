@@ -35,7 +35,7 @@ body {
 }
 
 #canvas {
-    background-color: white;
+    background-color: white;   
 }
 
 /** sidebar and icons **/
@@ -96,7 +96,7 @@ button:hover {
     min-height: 200px;
     color: white;
     font-weight: bold;
-    font-size:50px;
+    font-size: 24px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: rgb(56, 56, 56);
@@ -104,7 +104,13 @@ button:hover {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-#delete-modal{
+#grid-size-body {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+#grid-size-modal, #delete-modal{
     font-size: 24px;
     z-index: 2;
     text-align: center;
@@ -114,7 +120,7 @@ button:hover {
     width: 350px;
 }
 
-#delete-modal-buttons>button{
+.modal-button{
     margin: 16px;
     padding: 15px;
     background-color: rgb(151, 150, 150);
@@ -127,7 +133,7 @@ button:hover {
     width: 100px;
 }
 
-#delete-modal-buttons>button:hover {
+.modal-button:hover {
     transform:scale(105%);
     background-color: rgb(194, 194, 194);
 }

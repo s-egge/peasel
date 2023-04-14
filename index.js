@@ -1,13 +1,22 @@
-var penButton = document.getElementById("pen")
-var deleteButton = document.getElementById("delete")
-var deleteYes = document.getElementById("delete-yes")
-var deleteNo = document.getElementById("delete-no")
+var gridSizeButton = document.getElementById("grid-size-button");
+var penButton = document.getElementById("pen");
+var deleteButton = document.getElementById("delete");
+var deleteYes = document.getElementById("delete-yes");
+var deleteNo = document.getElementById("delete-no");
 
 // canvas set-up
 var canvas = document.getElementById("canvas");
-var c = canvas.getContext('2d')
-canvas.height = window.innerHeight * 0.8
-canvas.width = canvas.height
+var c = canvas.getContext('2d');
+
+// pixel variables
+var gridSize = 0
+var pixelLength = 0
+var pixelColor = "#000000" //start with black, changeable later
+var pixelX = 0
+var pixelY = 0
+
+//mouse variables
+var mousePressed = false
 
 //add pen button click functinality
 penButton.addEventListener('click', function() {
@@ -36,16 +45,30 @@ deleteNo.addEventListener('click', function(){
     document.getElementById("delete-modal").classList.toggle("hidden");
 })
 
+//when user clicks OK on grid size, update canvas pixel dimensions
+gridSizeButton.addEventListener('click', function(){
+    var gridOptions = document.getElementsByName("grid-size");
+    var gridSize = 0
 
-// pixel dimensions will start 16x16, add option to change size later
-var dimensions = 16
-var pixelLength = canvas.width / 16
-var pixelColor = "#000000" //start with black, changeable later
-var pixelX = 0
-var pixelY = 0
+    //get selected grid size
+    for(x = 0; x < gridOptions.length; x++) {
+        if (gridOptions[x].checked)
+            gridSize = gridOptions[x].value
+    }
 
-//mouse variables
-var mousePressed = false
+    //determine canvas size based on gridSize, not allowing floating point numbers
+    canvas.height = Math.floor((window.innerHeight * 0.8) / gridSize) * gridSize
+    canvas.width = canvas.height
+
+    //update canvas pixel dimensions based on grid size
+    pixelLength = canvas.width / gridSize
+
+    //close grid-size modal and backdrop, display canvas
+    document.getElementById("modal-backdrop").classList.toggle("hidden")
+    document.getElementById("grid-size-modal").classList.toggle("hidden")
+    document.getElementById("canvas").classList.toggle("hidden")
+    penButton.classList.toggle("clicked");
+})
 
 //toggle mousePressed bool when user clicks down
 window.onmousedown = function() {
