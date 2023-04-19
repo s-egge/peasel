@@ -17,33 +17,67 @@ var pixelY = 0
 
 //mouse variables
 var mousePressed = false
+var penOn = false
+var deleteOn = false
 
-//add pen button click functinality
-penButton.addEventListener('click', function() {
+/***********************************************************************************
+ * If the pen button is currently "on", remove "clicked" from classList, change
+ * icon to black, and set bool to false. If the pen button is "off", add "clicked", 
+ * change icon to white, and set bool to true.
+ * *********************************************************************************/
+function penToggle(){
     penButton.classList.toggle("clicked");
-})
 
-//add delete button functinality
-deleteButton.addEventListener('click', function(){
+    //toggle pen icon to black/white as needed and 
+    if(penOn) {
+        document.getElementById("pen-img").src = "imgs/pencil-black.png"
+        penOn = false
+    }
+
+    else{
+        document.getElementById("pen-img").src = "imgs/pencil-white.png"
+        penOn = true
+    }
+}
+
+/***********************************************************************************
+ * If the delete button is currently "on", remove "clicked" from classList, change
+ * icon to black, set bool to false, turn pen on, and hide backdrop modal. If the
+ * delete button is "off", add "clicked", change icon to white, set bool to true,
+ * turn pen off, and show backdrop.
+ * *********************************************************************************/
+function deleteToggle(){
+
     deleteButton.classList.toggle("clicked");
     document.getElementById("modal-backdrop").classList.toggle("hidden");
     document.getElementById("delete-modal").classList.toggle("hidden");
-})
+    penToggle();
+
+    if(deleteOn){
+        document.getElementById("delete-img").src = "imgs/garbage-black.png";
+        deleteOn = false
+    }
+    else {
+        document.getElementById("delete-img").src = "imgs/garbage-white.png";
+        deleteOn = true
+    }
+    
+}
+
+//add pen button click functinality
+penButton.addEventListener('click', penToggle)
+
+//add delete button functinality
+deleteButton.addEventListener('click', deleteToggle)
 
 //if user clicks yes, erase the whole canvas and close modals
 deleteYes.addEventListener('click', function(){
     c.clearRect(0, 0, canvas.width, canvas.height);
-    deleteButton.classList.toggle("clicked");
-    document.getElementById("modal-backdrop").classList.toggle("hidden");
-    document.getElementById("delete-modal").classList.toggle("hidden");
+    deleteToggle();
 })
 
 //if user clicks no, close the modals
-deleteNo.addEventListener('click', function(){
-    deleteButton.classList.toggle("clicked");
-    document.getElementById("modal-backdrop").classList.toggle("hidden");
-    document.getElementById("delete-modal").classList.toggle("hidden");
-})
+deleteNo.addEventListener('click', deleteToggle)
 
 //when user clicks OK on grid size, update canvas pixel dimensions
 gridSizeButton.addEventListener('click', function(){
@@ -67,7 +101,9 @@ gridSizeButton.addEventListener('click', function(){
     document.getElementById("modal-backdrop").classList.toggle("hidden")
     document.getElementById("grid-size-modal").classList.toggle("hidden")
     document.getElementById("canvas").classList.toggle("hidden")
-    penButton.classList.toggle("clicked");
+
+    //turn on pen automatically
+    penToggle();
 })
 
 //toggle mousePressed bool when user clicks down
@@ -97,7 +133,7 @@ window.onmousemove = function (event) {
 
 //drawing loop
 function draw() {
-    if (mousePressed && penButton.classList.contains("clicked")) {
+    if (mousePressed && penOn) {
         c.beginPath();
         c.fillStyle = pixelColor;
         c.fillRect(pixelX, pixelY, pixelLength, pixelLength);
