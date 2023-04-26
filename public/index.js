@@ -1,8 +1,10 @@
+
 var gridSizeButton = document.getElementById("grid-size-button");
 var penButton = document.getElementById("pen");
 var deleteButton = document.getElementById("delete");
 var deleteYes = document.getElementById("delete-yes");
 var deleteNo = document.getElementById("delete-no");
+var colorPicker = document.getElementById("color-picker");
 
 // canvas set-up
 var canvas = document.getElementById("canvas");
@@ -69,6 +71,36 @@ penButton.addEventListener('click', penToggle)
 
 //add delete button functinality
 deleteButton.addEventListener('click', deleteToggle)
+
+//color picker functionality
+colorPicker.addEventListener('click', function(){
+
+    // doesn't throw errors but doesn't print anything
+    /*fetch('http://127.0.0.1:12345', {
+        headers: {
+            'Accept': 'text/plain'
+         },
+        mode: "no-cors"
+    })
+    .then(response => console.log(response.text()))
+    .then(text => console.log(text))
+    */
+    
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/randomcolor");
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        console.log(xhr.responseText);
+        pixelColor = xhr.responseText;
+
+        colorPickerImg = document.getElementById("color-picker-img");
+        colorPickerImg.style.backgroundColor = pixelColor;
+    }};
+
+    xhr.send(); 
+})
+
 
 //if user clicks yes, erase the whole canvas and close modals
 deleteYes.addEventListener('click', function(){
