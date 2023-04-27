@@ -20,14 +20,19 @@
             <button id="delete" class="sidebar-button"><img id="delete-img" src="imgs/garbage-black.png"/></button>
             <button id="save" class="sidebar-button"><img id="save-img" src="imgs/save-black.png"/></button>
             <button id="color-matcher" class="sidebar-button"><img id="color-matcher-img" src="imgs/eyedropper-black.png"/></button>
-            <button id="color-picker" class="sidebar-button"><div id="color-picker-img"></div></button>
-            
+            <button id="color-picker" class="sidebar-button hidden"><div id="color-picker-img"></div></button>
+          </div>
+          <div id="color-wrapper">
+            <input type="color" id="left-color" class="color-box" value="#000000">
+            <input type="color" id="right-color" class="color-box" value="#FFFFFF">
+            <button id="swap-colors">S</button>
+            <button id="random-color">R</button>
           </div>
           <button id="help" class="sidebar-button"><img id="help-img" src="imgs/help-black.png"/></button>
         </div>
 
         <div id="canvas-wrapper">
-            <canvas id="canvas" class="hidden"></canvas>
+            <canvas id="canvas" class="hidden" oncontextmenu="return false;"></canvas>
         </div>
 
         <div id="modal-backdrop" class=""></div>

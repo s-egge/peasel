@@ -88,6 +88,65 @@ button>img {
     border: 3px solid white;
 }
 
+/* color picker */
+input[type="color"] {
+	border: 3px solid black;
+	width: 60px;
+	height: 60px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+
+#color-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#left-color {
+    z-index: 1;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+#right-color {
+    position: absolute;
+    top: 16%;
+    left: 40%;
+}
+
+#swap-colors {
+    background-color: white;
+    text-align: center;
+    width: 18px;
+    border: 2px solid black;
+
+    position: absolute;
+    top: 25%;
+    left: 18%;
+}
+
+#random-color {
+    background-color: white;
+    text-align: center;
+    width: 18px;
+    border: 2px solid black;
+
+
+    position: absolute;
+    top: 10%;
+    left: 68%;
+}
+
+
+
+
+
 /** modals **/
 #modal-backdrop{
     position: absolute;
@@ -95,7 +154,7 @@ button>img {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    z-index: 2;
     background-color: rgba(0, 0, 0, 0.60);
 }
 
@@ -127,7 +186,7 @@ button>img {
 
 #grid-size-modal, #delete-modal{
     font-size: 24px;
-    z-index: 2;
+    z-index: 3;
     text-align: center;
 }
 

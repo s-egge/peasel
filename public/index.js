@@ -4,7 +4,11 @@ var penButton = document.getElementById("pen");
 var deleteButton = document.getElementById("delete");
 var deleteYes = document.getElementById("delete-yes");
 var deleteNo = document.getElementById("delete-no");
-var colorPicker = document.getElementById("color-picker");
+var leftColorPicker = document.getElementById("left-color");
+var rightColorPicker = document.getElementById("right-color");
+var randomColor = document.getElementById("random-color");
+var colorSwapper = document.getElementById("swap-colors");
+
 
 // canvas set-up
 var canvas = document.getElementById("canvas");
@@ -13,7 +17,9 @@ var c = canvas.getContext('2d');
 // pixel variables
 var gridSize = 0
 var pixelLength = 0
-var pixelColor = "#000000" //start with black, changeable later
+var leftColor = "#000000"
+var rightColor = "#FFFFFF"
+var pixelColor = leftColor;
 var pixelX = 0
 var pixelY = 0
 
@@ -72,30 +78,39 @@ penButton.addEventListener('click', penToggle)
 //add delete button functinality
 deleteButton.addEventListener('click', deleteToggle)
 
-//color picker functionality
-colorPicker.addEventListener('click', function(){
+//change left color on input
+leftColorPicker.oninput = function() {
+    leftColor = this.value;
+}
 
-    // doesn't throw errors but doesn't print anything
-    /*fetch('http://127.0.0.1:12345', {
-        headers: {
-            'Accept': 'text/plain'
-         },
-        mode: "no-cors"
-    })
-    .then(response => console.log(response.text()))
-    .then(text => console.log(text))
-    */
-    
+//change right color on input
+rightColorPicker.oninput = function() {
+    rightColor = this.value;
+}
+
+//color swap functionality
+colorSwapper.addEventListener('click', function(){
+    tempColor = leftColor;
+    leftColor = rightColor;
+    rightColor = tempColor;
+
+    //change color picker colors
+    leftColorPicker.value = leftColor;
+    rightColorPicker.value = rightColor;
+})
+
+//random color functionality
+randomColor.addEventListener('click', function(){
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/randomcolor");
 
     xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         console.log(xhr.responseText);
-        pixelColor = xhr.responseText;
+        leftColor = xhr.responseText;
 
         colorPickerImg = document.getElementById("color-picker-img");
-        colorPickerImg.style.backgroundColor = pixelColor;
+        colorPickerImg.style.backgroundColor = leftColor;
     }};
 
     xhr.send(); 
@@ -139,8 +154,12 @@ gridSizeButton.addEventListener('click', function(){
 })
 
 //toggle mousePressed bool when user clicks down
-window.onmousedown = function() {
+window.onmousedown = function(mouse) {
     mousePressed = true;
+    if (mouse.which === 1)
+        pixelColor = leftColor;
+    else if (mouse.which === 3)
+        pixelColor = rightColor;
 }
 
 //toggle mousePressed bool when user releases mouse
