@@ -107,6 +107,7 @@ randomColorBtn.addEventListener('click', function(){
     xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         leftColorPicker.value = xhr.responseText;
+        leftColor = xhr.responseText;
     }};
 
     xhr.send(); 
