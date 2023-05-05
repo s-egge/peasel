@@ -6,8 +6,8 @@ var deleteYes = document.getElementById("delete-yes");
 var deleteNo = document.getElementById("delete-no");
 var leftColorPicker = document.getElementById("left-color");
 var rightColorPicker = document.getElementById("right-color");
-var randomColor = document.getElementById("random-color");
-var colorSwapper = document.getElementById("swap-colors");
+var randomColorBtn = document.getElementById("random-color-btn");
+var colorSwapperBtn = document.getElementById("swap-colors-btn");
 
 
 // canvas set-up
@@ -89,7 +89,7 @@ rightColorPicker.oninput = function() {
 }
 
 //color swap functionality
-colorSwapper.addEventListener('click', function(){
+colorSwapperBtn.addEventListener('click', function(){
     tempColor = leftColor;
     leftColor = rightColor;
     rightColor = tempColor;
@@ -100,17 +100,13 @@ colorSwapper.addEventListener('click', function(){
 })
 
 //random color functionality
-randomColor.addEventListener('click', function(){
+randomColorBtn.addEventListener('click', function(){
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/randomcolor");
 
     xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-        console.log(xhr.responseText);
-        leftColor = xhr.responseText;
-
-        colorPickerImg = document.getElementById("color-picker-img");
-        colorPickerImg.style.backgroundColor = leftColor;
+        leftColorPicker.value = xhr.responseText;
     }};
 
     xhr.send(); 

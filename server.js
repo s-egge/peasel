@@ -28,15 +28,15 @@ app.get("/", function(req, res) {
 app.get("/randomcolor", async function(req, res) {
 
     //write to the microservice text file
-    fs.writeFile('microservice.txt', "request", error => {
+    fs.writeFile('randomColor.txt', "request", error => {
         if (error) throw error
     })
 
     //wait a few seconds for the microservice to do its job
-    await sleep(3000);
+    await sleep(2000);
 
     //read color supplied by microservice
-    fs.readFile('microservice.txt', 'utf8', function(error, color) {
+    fs.readFile('randomColor.txt', 'utf8', function(error, color) {
         if (error) console.log('error', error);
         res.end(color);
     })

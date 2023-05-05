@@ -21,7 +21,6 @@ body {
 }
 
 #body-wrapper {
-    /*border: 2px solid orangered;*/
     display: flex;
     height: 95%;
 }
@@ -120,32 +119,43 @@ input[type="color"]::-webkit-color-swatch {
     left: 40%;
 }
 
-#swap-colors {
-    background-color: white;
-    text-align: center;
-    width: 18px;
-    border: 2px solid black;
+#swap-colors-btn {
+    background-color: transparent;
+    border: none;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
 
     position: absolute;
-    top: 25%;
-    left: 18%;
+    top: 23%;
+    left: 12%;
 }
 
-#random-color {
-    background-color: white;
-    text-align: center;
-    width: 18px;
-    border: 2px solid black;
+#random-color-btn {
 
-
+    background-color: transparent;
+    border: none;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
     position: absolute;
-    top: 10%;
-    left: 68%;
+    top: 9%;
+    left: 67%;
 }
 
+#random-color-img {
+    height: 90%;
+}
 
-
-
+#color-wrapper>button:hover {
+    transform:scale(120%);
+}
 
 /** modals **/
 #modal-backdrop{
