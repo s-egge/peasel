@@ -30,6 +30,7 @@ var mousePressed = false
 var penOn = false
 var eraserOn = false
 var deleteOn = false
+var bucketOn = false
 
 
 /***********************************************************************************
@@ -48,6 +49,10 @@ function changeCurrentOnButton(newOnButton) {
       }
 
       currentOnButton = newOnButton;
+}
+
+function bucketFill() {
+    
 }
 
 /***********************************************************************************
@@ -223,22 +228,28 @@ window.onmousemove = function (event) {
     pixelY = Math.floor((mouseY / pixelLength)) * pixelLength
 }
 
-//drawing loop
-function draw() {
-    if (mousePressed && (penOn || eraserOn)) {
+//draw on current pixel with given color
+function draw(color) {
         c.beginPath();
-        c.fillStyle = pixelColor;
-
-        //if eraser is on, change fill to white
-        if (eraserOn)
-            c.fillStyle = "#FFFFFF"
-
+        c.fillStyle = color;
         c.fillRect(pixelX, pixelY, pixelLength, pixelLength);
         c.fill();
+}
+
+//main loop, perform action based on clicking and currently pressed button
+function loop() {
+
+    if (mousePressed) {
+        if (penOn)
+            draw(pixelColor);
+        if (eraserOn)
+            draw("#FFFFFF")
+        if (bucketOn)
+            bucketFill()
     }
 
     //update canvas
-    window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(loop);
 }
 
-draw();
+loop();
