@@ -1,6 +1,7 @@
 
 var gridSizeButton = document.getElementById("grid-size-button");
 var penButton = document.getElementById("pen");
+var eraserButton = document.getElementById("eraser");
 var deleteButton = document.getElementById("delete");
 var deleteYes = document.getElementById("delete-yes");
 var deleteNo = document.getElementById("delete-no");
@@ -23,10 +24,31 @@ var pixelColor = leftColor;
 var pixelX = 0
 var pixelY = 0
 
-//mouse variables
+//button functionality variables
+var currentOnButton = "pen"
 var mousePressed = false
 var penOn = false
+var eraserOn = false
 var deleteOn = false
+
+
+/***********************************************************************************
+ * Calls toggle for whichever button is currently on, then updates currentOnButton
+ * *********************************************************************************/
+function changeCurrentOnButton(newOnButton) {
+    switch(currentOnButton) {
+        case newOnButton: //prevents infinite calls to this function
+            return;
+        case "pen":
+          penToggle();
+          break;
+        case "eraser":
+          eraserToggle();
+          break;
+      }
+
+      currentOnButton = newOnButton;
+}
 
 /***********************************************************************************
  * If the pen button is currently "on", remove "clicked" from classList, change
@@ -46,6 +68,30 @@ function penToggle(){
         document.getElementById("pen-img").src = "imgs/pencil-white.png"
         penOn = true
     }
+
+    changeCurrentOnButton("pen");
+}
+
+/***********************************************************************************
+ * If the eraser button is currently "on", remove "clicked" from classList, change
+ * icon to black, and set bool to false. If the eraser button is "off", add "clicked", 
+ * change icon to white, and set bool to true.
+ * *********************************************************************************/
+function eraserToggle(){
+    eraserButton.classList.toggle("clicked");
+
+    //toggle eraser icon to black/white as needed
+    if(eraserOn) {
+        document.getElementById("eraser-img").src = "imgs/eraser-black.png"
+        eraserOn = false
+    }
+
+    else{
+        document.getElementById("eraser-img").src = "imgs/eraser-white.png"
+        eraserOn = true
+    }
+
+    changeCurrentOnButton("eraser");
 }
 
 /***********************************************************************************
@@ -72,18 +118,16 @@ function deleteToggle(){
     
 }
 
-//add pen button click functinality
+//add button functinality
 penButton.addEventListener('click', penToggle)
-
-//add delete button functinality
+eraserButton.addEventListener('click', eraserToggle)
 deleteButton.addEventListener('click', deleteToggle)
 
-//change left color on input
+//change left and right colors on input
 leftColorPicker.oninput = function() {
     leftColor = this.value;
 }
 
-//change right color on input
 rightColorPicker.oninput = function() {
     rightColor = this.value;
 }
@@ -181,9 +225,14 @@ window.onmousemove = function (event) {
 
 //drawing loop
 function draw() {
-    if (mousePressed && penOn) {
+    if (mousePressed && (penOn || eraserOn)) {
         c.beginPath();
         c.fillStyle = pixelColor;
+
+        //if eraser is on, change fill to white
+        if (eraserOn)
+            c.fillStyle = "#FFFFFF"
+
         c.fillRect(pixelX, pixelY, pixelLength, pixelLength);
         c.fill();
     }
