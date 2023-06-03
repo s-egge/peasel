@@ -16,6 +16,7 @@ var colorSwapperBtn = document.getElementById("swap-colors-btn");
 var canvas = document.getElementById("canvas");
 var c = canvas.getContext('2d', { willReadFrequently: true });
 
+
 // pixel variables
 var gridSize = 0
 var pixelLength = 0
@@ -24,6 +25,7 @@ var rightColor = "#FFFFFF"
 var pixelColor = leftColor;
 var pixelX = 0
 var pixelY = 0
+
 
 //button functionality variables
 var currentOnButton = "pen"
@@ -55,6 +57,9 @@ function changeCurrentOnButton(newOnButton) {
       currentOnButton = newOnButton;
 }
 
+/***********************************************************************************
+ * Returns hex value for color at given coordinates on the canvas
+ * *********************************************************************************/
 function getPixelColorFromCoordinates(x, y) {
     const colorData = c.getImageData(x, y, 1, 1);
     var r = colorData.data[0];
@@ -70,7 +75,10 @@ function getPixelColorFromCoordinates(x, y) {
     return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
 }
 
-//checks if given coordinates are within the canvas bounds
+
+/***********************************************************************************
+ * Checks if given screen coordinates are within the bounds of the Canvas
+ * *********************************************************************************/
 function withinCanvasBounds(x, y) {
     if (x < 0 || x >= pixelLength * gridSize ||
         y < 0 || y >= pixelLength * gridSize)
@@ -80,6 +88,11 @@ function withinCanvasBounds(x, y) {
         return true
 }
 
+
+/***********************************************************************************
+ * Given the coordinates of a pixel and what color that pixel is, replaces that pixel
+ * and any matching and touching pixels with the desired color
+ * *********************************************************************************/
 function bucketFill(colorToReplace, x, y) {
     //fill pixel of passed in coordinates
     c.beginPath();
@@ -111,10 +124,9 @@ function bucketFill(colorToReplace, x, y) {
 
 }
 
+
 /***********************************************************************************
- * If the pen button is currently "on", remove "clicked" from classList, change
- * icon to black, and set bool to false. If the pen button is "off", add "clicked", 
- * change icon to white, and set bool to true.
+ * Toggles the pen button on/off
  * *********************************************************************************/
 function penToggle(){
     penButton.classList.toggle("clicked");
@@ -133,10 +145,9 @@ function penToggle(){
     }
 }
 
+
 /***********************************************************************************
- * If the eraser button is currently "on", remove "clicked" from classList, change
- * icon to black, and set bool to false. If the eraser button is "off", add "clicked", 
- * change icon to white, and set bool to true.
+ * Toggles the eraser button on/off
  * *********************************************************************************/
 function eraserToggle(){
     eraserButton.classList.toggle("clicked");
@@ -155,10 +166,9 @@ function eraserToggle(){
     }
 }
 
+
 /***********************************************************************************
- * If the bucket button is currently "on", remove "clicked" from classList, change
- * icon to black, and set bool to false. If the bucket button is "off", add "clicked", 
- * change icon to white, and set bool to true.
+ * Toggles the bucket button on/off
  * *********************************************************************************/
 function bucketToggle(){
     bucketButton.classList.toggle("clicked");
@@ -180,11 +190,9 @@ function bucketToggle(){
     return;
 }
 
+
 /***********************************************************************************
- * If the delete button is currently "on", remove "clicked" from classList, change
- * icon to black, set bool to false, turn pen on, and hide backdrop modal. If the
- * delete button is "off", add "clicked", change icon to white, set bool to true,
- * turn pen off, and show backdrop.
+ * Toggles the delete button on/off
  * *********************************************************************************/
 function deleteToggle(){
 
@@ -200,14 +208,29 @@ function deleteToggle(){
     else {
         document.getElementById("delete-img").src = "imgs/garbage-white.png";
         deleteOn = true
-    }
-    
+    } 
 }
+
+
+/***********************************************************************************
+ * If user clicks 'yes' on delete modal, erase canvas
+ * *********************************************************************************/
+deleteYes.addEventListener('click', function(){
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    deleteToggle();
+})
+
+
+/***********************************************************************************
+ * If user clicks 'no' on delete modal, close modal
+ * *********************************************************************************/
+deleteNo.addEventListener('click', deleteToggle)
 
 
 /***********************************************************************************
  * This reroutes when a user clicks on the canvas with "single click action" buttons, 
  * meaning buttons where a user won't be dragging the mouse across the canvas
+ * NOTE: Currently only used with button, will be used with eyedropper tool in the future
  * *********************************************************************************/
 function canvasSingleClickActions() {
     if (bucketOn) {
@@ -220,6 +243,7 @@ function canvasSingleClickActions() {
     }
 }
 
+
 //add button functinality
 penButton.addEventListener('click', penToggle)
 eraserButton.addEventListener('click', eraserToggle)
@@ -229,16 +253,21 @@ deleteButton.addEventListener('click', deleteToggle)
 canvas.addEventListener('click', canvasSingleClickActions);
 canvas.addEventListener('contextmenu', canvasSingleClickActions);
 
+
 //change left and right colors on input
 leftColorPicker.oninput = function() {
     leftColor = this.value;
 }
 
+
 rightColorPicker.oninput = function() {
     rightColor = this.value;
 }
 
-//color swap functionality
+
+/***********************************************************************************
+ * Swaps the left and right color swatches
+ * *********************************************************************************/
 colorSwapperBtn.addEventListener('click', function(){
     tempColor = leftColor;
     leftColor = rightColor;
@@ -249,7 +278,10 @@ colorSwapperBtn.addEventListener('click', function(){
     rightColorPicker.value = rightColor;
 })
 
-//random color functionality
+
+/***********************************************************************************
+ * Random color button functionality, sends request to server to receive a random color
+ * *********************************************************************************/
 randomColorBtn.addEventListener('click', function(){
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/randomcolor");
@@ -264,16 +296,9 @@ randomColorBtn.addEventListener('click', function(){
 })
 
 
-//if user clicks yes, erase the whole canvas and close modals
-deleteYes.addEventListener('click', function(){
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    deleteToggle();
-})
-
-//if user clicks no, close the modals
-deleteNo.addEventListener('click', deleteToggle)
-
-//when user clicks OK on grid size, update canvas pixel dimensions
+/***********************************************************************************
+ * when user clicks 'OK' on grid size, update canvas pixel dimensions
+ * *********************************************************************************/
 gridSizeButton.addEventListener('click', function(){
     var gridOptions = document.getElementsByName("grid-size");
 
@@ -299,7 +324,10 @@ gridSizeButton.addEventListener('click', function(){
     penToggle();
 })
 
-//toggle mousePressed bool when user clicks down
+
+/***********************************************************************************
+ * Toggle mousePressed bool when user clicks down
+ * *********************************************************************************/
 window.onmousedown = function(mouse) {
     mousePressed = true;
     if (mouse.which === 1)
@@ -308,15 +336,22 @@ window.onmousedown = function(mouse) {
         pixelColor = rightColor;
 }
 
-//toggle mousePressed bool when user releases mouse
+
+/***********************************************************************************
+ * Toggle mousePressed bool when user releases mouse
+ * *********************************************************************************/
 window.onmouseup = function() {
     mousePressed = false;
 }
 
-//update mouse position as it moves
+
+/***********************************************************************************
+ * Update mouse position as it moves
+ * *********************************************************************************/
 window.onmousemove = function (event) {
-    //https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
-    //get canvas in relation to viewport
+    
+    //get canvas in relation to viewport, see documentation:
+    //(https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
     let rect = canvas.getBoundingClientRect();
 
     //set mouse (x, y) coordinates based on canvas, not viewport
@@ -328,7 +363,10 @@ window.onmousemove = function (event) {
     pixelY = Math.floor((mouseY / pixelLength)) * pixelLength
 }
 
-//drawing loop for click and drag drawing/erasing
+
+/***********************************************************************************
+ * Drawing loop for click and drag buttons, such as drawing/erasing
+ * *********************************************************************************/
 function draw() {
 
     if (mousePressed && (penOn || eraserOn)) {
@@ -345,5 +383,6 @@ function draw() {
     //update canvas
     window.requestAnimationFrame(draw);
 }
+
 
 draw();

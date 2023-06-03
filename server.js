@@ -7,12 +7,7 @@ var port = process.env.PORT || 3000
 
 //helper function to prevent reading microservice text file too early
 function sleep(ms) {
-    //console.log("\n\n***In getColor***\n\n")
     return new Promise(resolve => setTimeout(resolve, ms));
-
-    //color = fs.readFile("microservice.txt", 'utf8')
-    //console.log(color);
-    //return color
 }
 
 //send requested public files
