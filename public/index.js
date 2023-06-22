@@ -52,6 +52,9 @@ function changeCurrentOnButton(newOnButton) {
         case "bucket":
             bucketToggle();
             break;
+        case "delete":
+            deleteToggle;
+            break;
       }
 
       currentOnButton = newOnButton;
@@ -199,15 +202,17 @@ function deleteToggle(){
     deleteButton.classList.toggle("clicked");
     document.getElementById("modal-backdrop").classList.toggle("hidden");
     document.getElementById("delete-modal").classList.toggle("hidden");
-    penToggle();
 
     if(deleteOn){
         document.getElementById("delete-img").src = "imgs/garbage-black.png";
         deleteOn = false
+        currentOnButton = "";
     }
+
     else {
         document.getElementById("delete-img").src = "imgs/garbage-white.png";
         deleteOn = true
+        changeCurrentOnButton("delete");
     } 
 }
 
@@ -280,19 +285,19 @@ colorSwapperBtn.addEventListener('click', function(){
 
 
 /***********************************************************************************
- * Random color button functionality, sends request to server to receive a random color
+ * Random color button functionality
  * *********************************************************************************/
 randomColorBtn.addEventListener('click', function(){
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/randomcolor");
+    
+    var hexDigits = "0123456789ABCDEF";
+    var randomColor = '#';
+    
+    // generate hex digits for random color
+    for (let i = 0; i < 6; i++)
+        randomColor += hexDigits[(Math.floor(Math.random() * 16))];
 
-    xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-        leftColorPicker.value = xhr.responseText;
-        leftColor = xhr.responseText;
-    }};
-
-    xhr.send(); 
+        leftColorPicker.value = randomColor;
+        leftColor = randomColor;
 })
 
 
