@@ -6,9 +6,9 @@ The website is currently hosted on Render here: https://peasel.onrender.com/
 
 To run the program locally:
 * Download code
-* In terminal, run 'npm install'
-* In terminal, run 'npm start'
-* In browser, go to 'localhost:3000'
+* In terminal, run `npm install` to download dependencies
+* In terminal, run `npm start` to start the server
+* In browser, go to  `localhost:3000`
 
 ## Current functionality:
 
