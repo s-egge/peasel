@@ -2,7 +2,9 @@
 
 Peasel is a website that utilizes HTML's canvas tag to display a blank canvas that allows the user to create pixel art. 
 
-To run the program:
+The website is currently hosted on Render here: https://peasel.onrender.com/
+
+To run the program locally:
 * Download code
 * In terminal, run 'npm install'
 * In terminal, run 'npm start'
