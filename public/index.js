@@ -1,4 +1,3 @@
-
 var gridSizeButton = document.getElementById("grid-size-button");
 var penButton = document.getElementById("pen");
 var eraserButton = document.getElementById("eraser");

@@ -154,7 +154,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 #color-wrapper>button:hover {
-    transform:scale(120%);
+    transform:scale(110%);
 }
 
 /** modals **/
@@ -224,4 +224,42 @@ input[type="color"]::-webkit-color-swatch {
 
 .hidden{
     display: none !important;
+}
+
+
+/** tool tips **/
+
+.tooltip .tooltiptext {
+    opacity: 0;
+    transition: 0s;
+
+    position: absolute;
+    width: fit-content;
+    left: 110%;
+    top: -15%;
+    z-index: 1;
+
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.tooltip:hover .tooltiptext {
+    opacity: 0.8;
+    transition-delay: 1.5s;
 }
