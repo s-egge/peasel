@@ -379,10 +379,12 @@ function draw() {
         c.fillStyle = pixelColor;
 
         if(eraserOn)
-            c.fillStyle = "#FFFFFF"
+            c.clearRect(pixelX, pixelY, pixelLength, pixelLength);
 
-        c.fillRect(pixelX, pixelY, pixelLength, pixelLength);
-        c.fill();
+        else {
+            c.fillRect(pixelX, pixelY, pixelLength, pixelLength);
+            c.fill();
+        }
     }
 
     //update canvas
