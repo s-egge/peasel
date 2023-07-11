@@ -9,6 +9,7 @@ var leftColorPicker = document.getElementById("left-color");
 var rightColorPicker = document.getElementById("right-color");
 var randomColorBtn = document.getElementById("random-color-btn");
 var colorSwapperBtn = document.getElementById("swap-colors-btn");
+var colorMatcherBtn = document.getElementById("color-matcher")
 
 
 // canvas set-up
@@ -29,10 +30,12 @@ var pixelY = 0
 //button functionality variables
 var currentOnButton = "pen"
 var mousePressed = false
+var lastClicked = "left"
 var penOn = false
 var eraserOn = false
 var deleteOn = false
 var bucketOn = false
+var colorMatcherOn = false
 
 
 /***********************************************************************************
@@ -52,7 +55,10 @@ function changeCurrentOnButton(newOnButton) {
             bucketToggle();
             break;
         case "delete":
-            deleteToggle;
+            deleteToggle();
+            break;
+        case "colorMatcher":
+            colorMatcherToggle();
             break;
       }
 
@@ -128,6 +134,22 @@ function bucketFill(colorToReplace, x, y) {
 
 
 /***********************************************************************************
+ * Will fill the left or right color swatch based on which side of the mouse the 
+ * user clicked. Fills the swatch with the color that the user clicked on.
+ * *********************************************************************************/
+function colorMatcherTool(newColor) {
+    if (lastClicked == "left") {
+        leftColor = currentColor;
+        leftColorPicker.value = leftColor;
+    }
+
+    else {
+        rightColor = currentColor;
+        rightColorPicker.value = rightColor;
+    }
+}
+
+/***********************************************************************************
  * Toggles the pen button on/off
  * *********************************************************************************/
 function penToggle(){
@@ -174,7 +196,6 @@ function eraserToggle(){
  * *********************************************************************************/
 function bucketToggle(){
     bucketButton.classList.toggle("clicked");
-
     
     //toggle eraser icon to black/white as needed
     if(bucketOn) {
@@ -215,6 +236,24 @@ function deleteToggle(){
     } 
 }
 
+function colorMatcherToggle(){
+    colorMatcherBtn.classList.toggle("clicked");
+
+    //toggle icon to black/white as needed
+    if(colorMatcherOn) {
+        document.getElementById("color-matcher-img").src = "imgs/eyedropper-black.png"
+        colorMatcherOn = false;
+        currentOnButton = "";
+    }
+
+    else {
+        document.getElementById("color-matcher-img").src = "imgs/eyedropper-white.png"
+        colorMatcherOn = true;
+        changeCurrentOnButton("colorMatcher");
+    }   
+
+    return;
+}
 
 /***********************************************************************************
  * If user clicks 'yes' on delete modal, erase canvas
@@ -234,16 +273,25 @@ deleteNo.addEventListener('click', deleteToggle)
 /***********************************************************************************
  * This reroutes when a user clicks on the canvas with "single click action" buttons, 
  * meaning buttons where a user won't be dragging the mouse across the canvas
- * NOTE: Currently only used with button, will be used with eyedropper tool in the future
+ * NOTE: Currently only used with fill button, will be used with eyedropper tool in the future
  * *********************************************************************************/
 function canvasSingleClickActions() {
-    if (bucketOn) {
-        currentColor = getPixelColorFromCoordinates(pixelX, pixelY);
 
+    // grab the color that user clicked on
+    currentColor = getPixelColorFromCoordinates(pixelX, pixelY);
+
+    if (bucketOn) {
         if (currentColor == pixelColor)
             return
 
         bucketFill(currentColor, pixelX, pixelY);
+    }
+
+    else if (colorMatcherOn) {
+        if (currentColor == pixelColor)
+            return
+
+        colorMatcherTool(currentColor);
     }
 }
 
@@ -253,6 +301,7 @@ penButton.addEventListener('click', penToggle)
 eraserButton.addEventListener('click', eraserToggle)
 bucketButton.addEventListener('click', bucketToggle)
 deleteButton.addEventListener('click', deleteToggle)
+colorMatcherBtn.addEventListener('click', colorMatcherToggle)
 
 canvas.addEventListener('click', canvasSingleClickActions);
 canvas.addEventListener('contextmenu', canvasSingleClickActions);
@@ -334,10 +383,15 @@ gridSizeButton.addEventListener('click', function(){
  * *********************************************************************************/
 window.onmousedown = function(mouse) {
     mousePressed = true;
-    if (mouse.which === 1)
+    if (mouse.which === 1) {
         pixelColor = leftColor;
-    else if (mouse.which === 3)
+        lastClicked = "left"
+    }
+
+    else if (mouse.which === 3) {
         pixelColor = rightColor;
+        lastClicked = "right"
+    }
 }
 
 
