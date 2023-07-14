@@ -1,15 +1,63 @@
 var gridSizeButton = document.getElementById("grid-size-button");
-var penButton = document.getElementById("pen");
-var eraserButton = document.getElementById("eraser");
-var bucketButton = document.getElementById("bucket");
-var deleteButton = document.getElementById("delete");
 var deleteYes = document.getElementById("delete-yes");
 var deleteNo = document.getElementById("delete-no");
 var leftColorPicker = document.getElementById("left-color");
 var rightColorPicker = document.getElementById("right-color");
 var randomColorBtn = document.getElementById("random-color-btn");
 var colorSwapperBtn = document.getElementById("swap-colors-btn");
-var colorMatcherBtn = document.getElementById("color-matcher")
+
+
+class Tool {
+    constructor(toolID, toolOn){
+        this.toolID = toolID;
+        this.on = toolOn;
+        this.button = document.getElementById(toolID);
+        this.imgID = toolID + "-img";
+        this.whiteImg = "imgs/" + toolID + "-white.png";
+        this.blackImg = "imgs/" + toolID + "-black.png";
+    }
+
+    //toggle the tool on/off
+    toggle(){
+        this.button.classList.toggle("clicked");
+    
+        //toggle icon to black/white as needed
+        if(this.on) {
+            document.getElementById(this.imgID).src = this.blackImg;
+            this.on = false
+            currentOnButton = "";
+        }
+    
+        else{
+            document.getElementById(this.imgID).src = this.whiteImg
+            this.on = true
+            changeCurrentOnButton(this.toolID);
+        }
+    }
+}
+
+
+//create tools
+var penTool = new Tool("pen", false);
+var eraserTool = new Tool("eraser", false);
+var bucketTool = new Tool("bucket", false);
+var deleteTool = new Tool("delete", false);
+var eyedropperTool = new Tool("eyedropper", false);
+
+
+//add event listeners for each tool
+penTool.button.addEventListener('click', function() {penTool.toggle()});
+eraserTool.button.addEventListener('click', function() {eraserTool.toggle()});
+bucketTool.button.addEventListener('click', function() {bucketTool.toggle()});
+eyedropperTool.button.addEventListener('click', function() {eyedropperTool.toggle()});
+
+
+//delete tool has a modal pop-up so needs extra functionality with toggle
+deleteTool.button.addEventListener('click', function() {
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
+    deleteTool.toggle();
+});
 
 
 // canvas set-up
@@ -28,14 +76,9 @@ var pixelY = 0
 
 
 //button functionality variables
-var currentOnButton = "pen"
+var currentOnButton = ""
 var mousePressed = false
 var lastClicked = "left"
-var penOn = false
-var eraserOn = false
-var deleteOn = false
-var bucketOn = false
-var colorMatcherOn = false
 
 
 /***********************************************************************************
@@ -46,24 +89,27 @@ function changeCurrentOnButton(newOnButton) {
         case newOnButton: //prevents infinite calls to this function
             return;
         case "pen":
-            penToggle();
+            penTool.toggle();
             break;
         case "eraser":
-            eraserToggle();
+            eraserTool.toggle();
             break;
         case "bucket":
-            bucketToggle();
+            bucketTool.toggle();
             break;
         case "delete":
-            deleteToggle();
+            document.getElementById("modal-backdrop").classList.toggle("hidden");
+            document.getElementById("delete-modal").classList.toggle("hidden");
+            deleteTool.toggle();
             break;
-        case "colorMatcher":
-            colorMatcherToggle();
+        case "eyedropper":
+            eyedropperTool.toggle();
             break;
       }
 
       currentOnButton = newOnButton;
 }
+
 
 /***********************************************************************************
  * Returns hex value for color at given coordinates on the canvas
@@ -137,7 +183,7 @@ function bucketFill(colorToReplace, x, y) {
  * Will fill the left or right color swatch based on which side of the mouse the 
  * user clicked. Fills the swatch with the color that the user clicked on.
  * *********************************************************************************/
-function colorMatcherTool(newColor) {
+function eyedropperFunctionality(newColor) {
     if (lastClicked == "left") {
         leftColor = currentColor;
         leftColorPicker.value = leftColor;
@@ -149,125 +195,26 @@ function colorMatcherTool(newColor) {
     }
 }
 
-/***********************************************************************************
- * Toggles the pen button on/off
- * *********************************************************************************/
-function penToggle(){
-    penButton.classList.toggle("clicked");
-
-    //toggle pen icon to black/white as needed and 
-    if(penOn) {
-        document.getElementById("pen-img").src = "imgs/pencil-black.png"
-        penOn = false
-        currentOnButton = "";
-    }
-
-    else{
-        document.getElementById("pen-img").src = "imgs/pencil-white.png"
-        penOn = true
-        changeCurrentOnButton("pen");
-    }
-}
-
-
-/***********************************************************************************
- * Toggles the eraser button on/off
- * *********************************************************************************/
-function eraserToggle(){
-    eraserButton.classList.toggle("clicked");
-
-    //toggle eraser icon to black/white as needed
-    if(eraserOn) {
-        document.getElementById("eraser-img").src = "imgs/eraser-black.png"
-        eraserOn = false
-        currentOnButton = "";
-    }
-
-    else{
-        document.getElementById("eraser-img").src = "imgs/eraser-white.png"
-        eraserOn = true
-        changeCurrentOnButton("eraser");
-    }
-}
-
-
-/***********************************************************************************
- * Toggles the bucket button on/off
- * *********************************************************************************/
-function bucketToggle(){
-    bucketButton.classList.toggle("clicked");
-    
-    //toggle eraser icon to black/white as needed
-    if(bucketOn) {
-        document.getElementById("bucket-img").src = "imgs/bucket-black.png"
-        bucketOn = false;
-        currentOnButton = "";
-    }
-
-    else {
-        document.getElementById("bucket-img").src = "imgs/bucket-white.png"
-        bucketOn = true;
-        changeCurrentOnButton("bucket");
-    }
-
-    return;
-}
-
-
-/***********************************************************************************
- * Toggles the delete button on/off
- * *********************************************************************************/
-function deleteToggle(){
-
-    deleteButton.classList.toggle("clicked");
-    document.getElementById("modal-backdrop").classList.toggle("hidden");
-    document.getElementById("delete-modal").classList.toggle("hidden");
-
-    if(deleteOn){
-        document.getElementById("delete-img").src = "imgs/garbage-black.png";
-        deleteOn = false
-        currentOnButton = "";
-    }
-
-    else {
-        document.getElementById("delete-img").src = "imgs/garbage-white.png";
-        deleteOn = true
-        changeCurrentOnButton("delete");
-    } 
-}
-
-function colorMatcherToggle(){
-    colorMatcherBtn.classList.toggle("clicked");
-
-    //toggle icon to black/white as needed
-    if(colorMatcherOn) {
-        document.getElementById("color-matcher-img").src = "imgs/eyedropper-black.png"
-        colorMatcherOn = false;
-        currentOnButton = "";
-    }
-
-    else {
-        document.getElementById("color-matcher-img").src = "imgs/eyedropper-white.png"
-        colorMatcherOn = true;
-        changeCurrentOnButton("colorMatcher");
-    }   
-
-    return;
-}
 
 /***********************************************************************************
  * If user clicks 'yes' on delete modal, erase canvas
  * *********************************************************************************/
 deleteYes.addEventListener('click', function(){
     c.clearRect(0, 0, canvas.width, canvas.height);
-    deleteToggle();
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
+    deleteTool.toggle();
 })
 
 
 /***********************************************************************************
  * If user clicks 'no' on delete modal, close modal
  * *********************************************************************************/
-deleteNo.addEventListener('click', deleteToggle)
+deleteNo.addEventListener('click', function(){
+    document.getElementById("modal-backdrop").classList.toggle("hidden");
+    document.getElementById("delete-modal").classList.toggle("hidden");
+    deleteTool.toggle();
+})
 
 
 /***********************************************************************************
@@ -280,28 +227,21 @@ function canvasSingleClickActions() {
     // grab the color that user clicked on
     currentColor = getPixelColorFromCoordinates(pixelX, pixelY);
 
-    if (bucketOn) {
+    if (bucketTool.on) {
         if (currentColor == pixelColor)
             return
 
         bucketFill(currentColor, pixelX, pixelY);
     }
 
-    else if (colorMatcherOn) {
+    else if (eyedropperTool.on) {
         if (currentColor == pixelColor)
             return
 
-        colorMatcherTool(currentColor);
+        eyedropperFunctionality(currentColor);
     }
 }
 
-
-//add button functinality
-penButton.addEventListener('click', penToggle)
-eraserButton.addEventListener('click', eraserToggle)
-bucketButton.addEventListener('click', bucketToggle)
-deleteButton.addEventListener('click', deleteToggle)
-colorMatcherBtn.addEventListener('click', colorMatcherToggle)
 
 canvas.addEventListener('click', canvasSingleClickActions);
 canvas.addEventListener('contextmenu', canvasSingleClickActions);
@@ -374,7 +314,7 @@ gridSizeButton.addEventListener('click', function(){
     document.getElementById("canvas").classList.toggle("hidden")
 
     //turn on pen automatically
-    penToggle();
+    penTool.toggle();
 })
 
 
@@ -427,11 +367,11 @@ window.onmousemove = function (event) {
  * *********************************************************************************/
 function draw() {
 
-    if (mousePressed && (penOn || eraserOn)) {
+    if (mousePressed && (penTool.on || eraserTool.on)) {
         c.beginPath();
         c.fillStyle = pixelColor;
 
-        if(eraserOn)
+        if(eraserTool.on)
             c.clearRect(pixelX, pixelY, pixelLength, pixelLength);
 
         else {
