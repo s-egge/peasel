@@ -12,24 +12,18 @@ class Tool {
         this.toolID = toolID;
         this.on = toolOn;
         this.button = document.getElementById(toolID);
-        this.imgID = toolID + "-img";
-        this.whiteImg = "imgs/" + toolID + "-white.png";
-        this.blackImg = "imgs/" + toolID + "-black.png";
     }
 
     //toggle the tool on/off
     toggle(){
         this.button.classList.toggle("clicked");
     
-        //toggle icon to black/white as needed
         if(this.on) {
-            document.getElementById(this.imgID).src = this.blackImg;
             this.on = false
             currentOnButton = "";
         }
     
         else{
-            document.getElementById(this.imgID).src = this.whiteImg
             this.on = true
             changeCurrentOnButton(this.toolID);
         }
