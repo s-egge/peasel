@@ -7,6 +7,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #header {
@@ -44,7 +45,6 @@ body {
     width: 120px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
 }
@@ -53,6 +53,12 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+#icon-link > a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
 }
 
 .sidebar-button {
@@ -70,17 +76,12 @@ body {
 button:hover {
     transform:scale(105%);
     background-color: rgb(194, 194, 194);
+    cursor: pointer;
 }
 
-button>img {
+svg{
     height: 80%;
-}
-
-#color-picker-img {
-    background-color: black;
-    border-radius: 10%;
-    height: 70%;
-    width: 70%;
+    fill: #000000;
 }
 
 .clicked {
@@ -101,21 +102,22 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 #color-wrapper {
+    margin-top: 50px;
     position: relative;
-    height: 100%;
+    height: 120px;
     width: 100%;
 }
 
 #left-color {
     z-index: 1;
     position: absolute;
-    top: 10%;
-    left: 10%;
+    top: 10px;
+    left: 10px;
 }
 
 #right-color {
     position: absolute;
-    top: 16%;
+    top: 50px;
     left: 40%;
 }
 
@@ -130,27 +132,22 @@ input[type="color"]::-webkit-color-swatch {
     height: 30px;
 
     position: absolute;
-    top: 23%;
-    left: 12%;
+    top: 80px;
+    left: 10px;
 }
 
 #random-color-btn {
-
     background-color: transparent;
     border: none;
     border-radius: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    top: 9%;
-    left: 67%;
-}
-
-#random-color-img {
-    height: 90%;
+    top: 10px;
+    left: 75px;
 }
 
 #color-wrapper>button:hover {
@@ -261,5 +258,5 @@ input[type="color"]::-webkit-color-swatch {
 /* Show the tooltip on hover */
 .tooltip:hover .tooltiptext {
     opacity: 0.8;
-    transition-delay: 1.5s;
+    transition-delay: 0.5s;
 }

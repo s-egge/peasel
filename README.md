@@ -40,3 +40,24 @@ To run the program locally:
 * Grid-size: Will change the size of the grid after initial entry.
 * Save: Will save the pixel-art as a download.
 
+## Icons:
+
+All icons are from [SVG Repo](https://www.svgrepo.com/)
+
+[Pencil SVG](https://www.svgrepo.com/svg/335241/pencil)
+
+[Eraser SVG](https://www.svgrepo.com/svg/525862/eraser)
+
+[Fill SVG](https://www.svgrepo.com/svg/412208/fill)
+
+[Resize SVG](https://www.svgrepo.com/svg/379587/resize-alt)
+
+[Delete SVG](https://www.svgrepo.com/svg/488148/delete)
+
+[Save SVG](https://www.svgrepo.com/svg/509215/save-alt)
+
+[Eyedropper SVG](https://www.svgrepo.com/svg/313906/eye-dropper-solid)
+
+[Dice SVG](https://www.svgrepo.com/svg/326602/dice-outline)
+
+[Swap SVG](https://www.svgrepo.com/svg/521871/switch)
