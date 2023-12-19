@@ -18,6 +18,7 @@ body {
     padding-left: 10px;
     padding-top: 6px;
     height: 5%;
+    z-index: 2;
 }
 
 #body-wrapper {
@@ -31,10 +32,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 #canvas {
-    background-color: white;   
+    z-index: 1;
+    background-color: white;  
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    
 }
 
 /** sidebar and icons **/
@@ -47,6 +52,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    z-index: 2;
 }
 
 #tools {
@@ -107,7 +113,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 #left-color {
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     top: 10%;
     left: 10%;
@@ -164,7 +170,7 @@ input[type="color"]::-webkit-color-swatch {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 2;
+    z-index: 3;
     background-color: rgba(0, 0, 0, 0.60);
 }
 
@@ -196,7 +202,7 @@ input[type="color"]::-webkit-color-swatch {
 
 #grid-size-modal, #delete-modal{
     font-size: 24px;
-    z-index: 3;
+    z-index: 4;
     text-align: center;
 }
 
@@ -237,7 +243,7 @@ input[type="color"]::-webkit-color-swatch {
     width: fit-content;
     left: 110%;
     top: -15%;
-    z-index: 1;
+    z-index: 2;
 
     background-color: black;
     color: white;
