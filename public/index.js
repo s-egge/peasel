@@ -57,6 +57,7 @@ deleteTool.button.addEventListener('click', function() {
 // canvas set-up
 var canvas = document.getElementById("canvas");
 var c = canvas.getContext('2d', { willReadFrequently: true });
+var zoomLevel = 1;
 
 
 // pixel variables
@@ -241,6 +242,21 @@ canvas.addEventListener('click', canvasSingleClickActions);
 canvas.addEventListener('contextmenu', canvasSingleClickActions);
 
 
+/***********************************************************************************
+ * Zoom only on canvas
+ * *********************************************************************************/
+canvas.addEventListener('wheel', function(event){
+    event.preventDefault();
+
+    // zoom in or out based on scroll direction, but stay within bounds
+    if (event.deltaY < 0 && zoomLevel < 2.5)
+        zoomLevel += 0.1;
+    else if (event.deltaY > 0 && zoomLevel > 0.3)
+        zoomLevel -= 0.1;
+
+    canvas.style.transform = `scale(${zoomLevel})`;
+})
+
 //change left and right colors on input
 leftColorPicker.oninput = function() {
     leftColor = this.value;
@@ -347,8 +363,8 @@ window.onmousemove = function (event) {
     let rect = canvas.getBoundingClientRect();
 
     //set mouse (x, y) coordinates based on canvas, not viewport
-    var mouseX = (event.clientX - rect.left);
-    var mouseY = (event.clientY - rect.top);
+    var mouseX = (event.clientX - rect.left) / zoomLevel;
+    var mouseY = (event.clientY - rect.top) / zoomLevel;
 
     //set current pixel coordinates based on canvas size
     pixelX = Math.floor((mouseX / pixelLength)) * pixelLength
